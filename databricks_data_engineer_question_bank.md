@@ -2,11 +2,9 @@
 
 ## Question 1
 
-An upstream system has been configured to pass the date for a given batch of data to the Databricks Jobs API as a parameter. The
-
+An upstream system has been configured to pass the date for a given batch of data to the Databricks Jobs API as a parameter. The notebook to be scheduled will use this parameter to load data with the following code:
 ```python
-notebook to be scheduled will use this parameter to load data with the following code: df =
-spark.read.format("parquet").load(f"/mnt/source/(date)")
+ df = spark.read.format("parquet").load(f"/mnt/source/(date)")
 ```
 
 Which code block should be used to create the date Python variable used in the above code block?
@@ -31,7 +29,10 @@ Which code block should be used to create the date Python variable used in the a
 
 ## Question 2
 
-A Delta table of weather records is partitioned by date and has the below schema: date DATE, device_id INT, temp FLOAT, latitude FLOAT, longitude FLOAT  To find all the records from within the Arctic Circle, you execute a query with the below filter: latitude > 66.3  Which statement describes how the Delta engine identifies which files to load?
+A Delta table of weather records is partitioned by date and has the below schema: 
+`date DATE, device_id INT, temp FLOAT, latitude FLOAT, longitude FLOAT  `
+To find all the records from within the Arctic Circle, you execute a query with the below filter: `latitude > 66.3 ` 
+Which statement describes how the Delta engine identifies which files to load?
 
 - **A.** All records are cached to an operational database and then the filter is applied
 - **B.** The Parquet file footers are scanned for min and max statistics for the latitude column
