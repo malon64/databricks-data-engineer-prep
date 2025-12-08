@@ -5483,20 +5483,25 @@ _Answer not provided in source screenshots._
 The data governance team is reviewing code used for deleting records for compliance with GDPR. The following logic has been implemented to propagate delete requests from the user_lookup table to the user_aggregates table.
 
 ```python
-(spark. read
+(spark.read
+.format("delta")
+.option("readChangeData", True)
+.option("startingTimestamp", '2021-08-22 00:00:00')
+.option("endingTimestamp", '2021-08-29 00:00:00')
+.table("user_lookup")
+.createOrReplaceTempView("changes"))
+
+spark.sql("""
+ DELETE FROM user_aggregates
+ WHERE user_id IN (
+  SELECT user_ id
+  FROM changes
+  WHERE _change_type='delete'
+  )
+""")
 ```
 
-- format ("delta") -option("readChangeData", True) -option("startingTimestamp", ‘2021-08-22 00:00:00') )  -option("endingTimestamp", ‘2021-08-29 00:00:00 . table ("user_lookup")  .createOrReplaceTempView ("changes") )
-
-```
-FROM changes
-```
-
-```
-WHERE _change_type='delete’
-```
-
-)  Assuming that user_id is a unique identifying key and that all users that have requested deletion have been removed from the user_lookup table, which statement describes whether successfully executing the above logic guarantees that the records to be deleted from the user_aggregates table are no longer accessible and why?
+Assuming that user_id is a unique identifying key and that all users that have requested deletion have been removed from the user_lookup table, which statement describes whether successfully executing the above logic guarantees that the records to be deleted from the user_aggregates table are no longer accessible and why?
 
 - **A.** No; the Delta Lake DELETE command only provides ACID guarantees when combined with the MERGE INTO command.
 - **B.** No; files containing deleted records may still be accessible with time travel until a VACUUM command is used to remove invalidated data files.
