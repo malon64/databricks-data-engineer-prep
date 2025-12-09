@@ -170,9 +170,9 @@ The data science team has created and logged a production model using MLflow. Th
 The following code correctly imports the production model, loads the customers table containing the customer_id key column into a DataFrame, and defines the feature columns needed for the model.
 
 ```python
-model = mlflow.pyfunc.spark_udf (spark, model _uri="models: /churn/prod")
-df = spark.table ("customers")
-columns = ["account_age", "time _since_last_seen", “app_rating"]
+model = mlflow.pyfunc.spark_udf(spark, model_uri="models:/churn/prod")
+df = spark.table("customers")
+columns = ["account_age", "time _since_last_seen", "app_rating"]
 ```
 
 Which code block will output a DataFrame with the schema "customer_id LONG, predictions DOUBLE"?
