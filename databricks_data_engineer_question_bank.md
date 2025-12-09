@@ -46,7 +46,7 @@ Which statement describes how the Delta engine identifies which files to load?
 
 **Explanation:** Delta keeps column-level min/max statistics in the transaction log and uses those stats for data skipping before touching Parquet files.
 
-**Reference:** https://docs.databricks.com/en/delta/delta-data-skipping.html
+**Reference:** https://docs.databricks.com/aws/en/delta/data-skipping
 
 </details>
 
@@ -89,11 +89,11 @@ Which indicators would you look for in the Spark Ul's Storage tab to signal that
 
 <details><summary>Answer</summary>
 
-**Answer:** B
+**Answer:** C
 
-**Explanation:** In the Spark UI Storage tab an asterisk beside an RDD block means the cache could not persist that partition, signalling poor MEMORY_ONLY performance.
+**Explanation:** With the `MEMORY_ONLY` storage level Spark should never spill to disk, so `Size on Disk` is expected to stay at `0`. Any bytes reported there mean partitions were evicted and written out, which shows the cache is not performing optimally.
 
-**Reference:** https://spark.apache.org/docs/latest/monitoring.html#storage-tab
+**Reference:** Spark documentation – *Monitoring and Instrumentation: Storage tab* (https://spark.apache.org/docs/latest/monitoring.html#storage-tab)
 
 </details>
 
