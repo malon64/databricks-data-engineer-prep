@@ -178,7 +178,8 @@ columns = ["account_age", "time _since_last_seen", "app_rating"]
 Which code block will output a DataFrame with the schema "customer_id LONG, predictions DOUBLE"?
 
 - **A.** df.map(lambda x:model(x[{columns])).select("customer_id, predictions")
-- **B.** df.select("customer_id", model(*columns).alias("predictions")) Cy model.predict(df, columns)
+- **B.** df.select("customer_id", model(*columns).alias("predictions"))
+- **C.** model.predict(df, columns)
 - **D.** df.select("customer_id", pandas_udf(model, columns).alias("predictions"))
 - **E.** df.apply(model, columns).select("customer_id, predictions")
 
@@ -186,7 +187,7 @@ Which code block will output a DataFrame with the schema "customer_id LONG, pred
 
 **Answer:** B
 
-**Explanation:** Registering the MLflow model as a Spark UDF lets you select the key column plus `model(*columns)` to return the predicted DOUBLE for each row.
+**Explanation:** Registering the MLflow model as a Spark UDF lets you call `model(*columns)` inside a `select`. That UDF returns the DOUBLE prediction column, allowing you to project `customer_id` alongside the predictions in one DataFrame.
 
 **Reference:** https://docs.databricks.com/en/mlflow/models.html#use-mlflow-models-in-spark
 
