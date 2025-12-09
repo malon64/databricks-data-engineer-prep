@@ -21,7 +21,7 @@ Which code block should be used to create the date Python variable used in the a
 
 **Explanation:** Job parameters surface as widgets; creating a widget and reading it via `dbutils.widgets.get` materializes the value that the Jobs API passed.
 
-**Reference:** https://docs.databricks.com/en/workflows/jobs/jobs-task-parameters.html
+**Reference:** https://docs.databricks.com/aws/en/jobs/parameter-use
 
 </details>
 
