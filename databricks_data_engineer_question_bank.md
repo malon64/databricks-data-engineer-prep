@@ -1,4 +1,4 @@
-# Databricks Certified Data Engineer Professional – OCR Extract
+# Databricks Certified Data Engineer Professional Exam Questions
 
 ## Question 1
 
@@ -397,19 +397,19 @@ A Delta Lake table in the Lakehouse named customer_churn_params is used in churn
 
 ## Question 18
 
-A data team maintains a Structured Streaming job that computes running aggregates for item sales. Marketing now wants to track how many times a specific promotion code is used per item. A junior engineer proposes updating the query (new logic in bold):
+A data team maintains a Structured Streaming job that computes running aggregates for item sales. Marketing now wants to track how many times a specific promotion code is used per item. A junior engineer proposes updating the query (new logic commented):
 
-```
-df.groupBy("item") \
+```python
+df.groupBy("item")
   .agg(
       count("item").alias("total_count"),
       mean("sale_price").alias("avg_price"),
-      count("promo_code = 'NEW_MEMBER'").alias("new_member_promo")
-  ) \
-  .writeStream \
-  .outputMode("complete") \
-  .option("mergeSchema", "true") \
-  .option("checkpointLocation", "/item_agg/__checkpoint") \
+      count("promo_code = 'NEW_MEMBER'").alias("new_member_promo") # NEW LOGIC
+  )
+  .writeStream
+  .outputMode("complete")
+  .option("mergeSchema", "true") # NEW LOGIC
+  .option("checkpointLocation", "/item_agg/__checkpoint")
   .start("/item_agg")
 ```
 
@@ -426,7 +426,7 @@ Which additional step is required before moving this change into production?
 
 **Explanation:** Changing the query schema means the existing checkpoint metadata no longer matches the streaming plan. Using a brand-new checkpoint directory prevents corrupt state when restarting the job.
 
-**Reference:** https://docs.databricks.com/en/structured-streaming/upgrading.html#checkpoint-compatibility
+**Reference:** https://docs.databricks.com/aws/en/structured-streaming/checkpoints
 
 </details>
 
