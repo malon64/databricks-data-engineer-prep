@@ -637,7 +637,21 @@ Which of the following describes how results are generated each time the dashboa
 
 ## Question 27
 
-A Delta Lake table was created with the below query: Consider the following query: DROP TABLE prod.sales_by_store - If this statement is executed by a workspace admin, which result will occur?
+A Delta Lake table was created with the below query: 
+```sql
+CREATE TABLE prod.sales_by_store
+AS (
+  SELECT *
+  FROM prod.sales a
+  INNER JOIN prod.store b
+  ON a.store_id = b.store_id
+)
+```
+Consider the following query: 
+```sql
+DROP TABLE prod.sales_by_store 
+```
+If this statement is executed by a workspace admin, which result will occur?
 
 - **A.** Data will be marked as deleted but still recoverable with Time Travel.
 - **B.** The table will be removed from the catalog but the data will remain in storage.
@@ -683,7 +697,23 @@ A developer has successfully configured their credentials for Databricks Repos a
 
 ## Question 29
 
-The security team is exploring whether or not the Databricks secrets module can be leveraged for connecting to an external database.  After testing the code with all Python variables being defined with strings, they upload the password to the secrets module and fi the correct permissit for the currently active user. They then modify their code to the following (leaving all other variables unchanged).  Which statement describes what will happen when the above code is executed?
+The security team is exploring whether or not the Databricks secrets module can be leveraged for connecting to an external database.  
+After testing the code with all Python variables being defined with strings, they upload the password to the secrets module and configure the correct permissions for the currently active user. They then modify their code to the following (leaving all other variables unchanged).
+
+```python
+password = dbutils.secrets.get(scope="db_creds", key="jdbc_password")
+
+print(password)
+
+df = (spark.read
+  .format("jdbc")
+  .option("url", connection)
+  .option("dbtable", tablename)
+  .option("user", username)
+  .option("password", password)
+  )
+```
+Which statement describes what will happen when the above code is executed?
 
 - **A.** The connection to the external table will succeed; the string "REDACTED" will be printed.
 - **B.** An interactive input box will appear in the notebook; if the right password is provided, the connection will succeed and the encoded password will be saved to DBFS.
@@ -747,10 +777,10 @@ A junior member of the data engineering team is exploring the language interoper
 ```
 Cmd 1
 %python
-countries_af = [x[0] for x in spark.table("geo_lookup")
-                                 .filter("continent='AF'")
-                                 .select("country")
-                                 .collect()]
+  countries_af = [x[0] for x in spark.table("geo_lookup")
+    .filter("continent='AF'")
+    .select("country")
+    .collect()]
 
 Cmd 2
 %sql
