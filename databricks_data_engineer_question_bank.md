@@ -1888,16 +1888,13 @@ A data engineer wants to join a stream of advertisement impressions (when an ad 
 In the code below, `impressions` is a streaming DataFrame with a watermark `withWatermark("event_time", "10 minutes")`:
 
 ```python
-(clicks
-    .groupBy(
-        window("event_time", "5 minutes"),
-        "id"
-    )
-    .count())
+.groupBy(
+  window("event_time", "5 minutes"),
+  "id")
+.count()
+.withWatermark("event_time", "2 hours")
 
-(impressions
-    .withWatermark("event_time", "2 hours")
-    .join(clicks, expr("clickAdId = impressionAdId"), "inner"))
+impressions.join(clicks, expr("clickAdId = impressionAdId"), "inner"))
 ```
 
 The engineer notices the query slowing down significantly.
